@@ -1,0 +1,41 @@
+.subTitle {
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    color: #9fbacc;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 60px;
+    text-align: center;
+    color: #dfebf2;
+
+    & img {
+        width: 60px;
+    }
+}
+
+.planet {
+    font-weight: 600;
+    font-size: 24px;
+    text-align: center;
+    color: #9fbacc;
+    display: flex;
+    align-items: center;
+    & img {
+        width: 36px;
+    }
+}
+
+.balance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10vh;
+    padding-bottom: 3vh;
+    border-bottom: 1px solid #29475B;
+}

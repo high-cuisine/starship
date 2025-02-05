@@ -1,0 +1,108 @@
+.item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+
+    & .downContainer {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        gap:3vw
+    }
+
+    & .leftContainer {
+        display: flex;
+        flex-direction: column;
+
+        & .planetImage {
+            width: 120px;
+        }
+        
+    }
+    
+
+    & .centerContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        & span {
+            font-weight: 600;
+            font-size: 48px;
+            color: #dfebf2;
+            text-align: center;
+            margin-top: -20px;
+        }
+
+        & svg {
+            width: 80px;
+        }
+    }
+}
+
+.upContainer {
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+    font-weight: 500;
+    font-size: 16px;
+    color: #dfebf2;
+    width: 100px;
+
+    & img {
+        width: 22px;
+    }
+}
+
+.coinsContainer {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    align-items: center;
+    color: #dfebf2;
+  
+    & img {
+        width:20px;
+    }
+
+}
+
+.title {
+    font-weight: 500;
+    font-size: 18px;
+    text-align: left;
+    color: #dfebf2;
+    padding-left: 15px;
+}
+
+.numberPurchase {
+    font-weight: 700;
+    font-size: 44px;
+    text-align: right;
+    color: #dfebf2;
+}
+
+.purchaseSubtitle {
+    font-weight: 500;
+    font-size: 15px;
+    text-align: right;
+    color: #dfebf2;
+}
+
+.rightContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    background: #29475b;
+    border-radius: 8px;
+    padding: 4px;
+    gap:-10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
