@@ -1,0 +1,16 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+    font-weight: 500;
+    font-size: clamp(0.75rem, 0.2625rem + 1.2vh, 0.9375rem);
+    text-align: center;
+    color: #dfebf2;
+    padding-top: 3vh;
+
+    & img {
+        width: 12vh;
+    }
+}
