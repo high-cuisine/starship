@@ -17,8 +17,8 @@ const LeguageItem = ({item, index}:LeguageItemProps) => {
     const setLevel = useUserStore(state => state.setLevel);
 
     const relocateGame = () => {
-        console.log(user?.coins, item.minCount)
-        if(Number(user?.coins) > item.minCount) {
+        console.log(user?.scores, item.minCount)
+        if(Number(user?.scores) >= item.minCount) {
             setLevel(index);
             navigate(`/game`, {replace:true});
         }    

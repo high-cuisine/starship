@@ -1,6 +1,7 @@
 import { create } from 'zustand';
+import UserService from '../api/Services/UserService';
 
-interface GameStore {
+export interface GameStore {
     rechargeLevel: number,
     multiplyLevel: number,
     countRecharge: number,
@@ -19,6 +20,9 @@ interface GameStore {
     useDailyRecharge: () => void,
 
     disableDaily: () => void,
+
+    setDailyMultiPlay: (count:number) => void,
+    setDailyRecharge: (count:number) => void,
 }
 
 const useGameStore = create<GameStore>((set, get) => ({
@@ -28,9 +32,13 @@ const useGameStore = create<GameStore>((set, get) => ({
     countMultiply: 3,
     dailyMultiPlay: { count: 3, date: new Date(0), status: 'disable' },
     dailyRecharge: { count: 3, date: new Date(0), status: 'disable' },
+    
 
-    useDailyMultiplay: () => {
+    useDailyMultiplay: async () => {
         if (get().dailyMultiPlay.status === 'active') return;
+        if(get().dailyMultiPlay.count < 1) return;
+
+        await UserService.setDaily({type: 'multiply'});
 
         const lastTime = get().dailyMultiPlay.date;
         const timeDiff = (Date.now() - Number(lastTime)) / 1000 / 86400;
@@ -56,12 +64,26 @@ const useGameStore = create<GameStore>((set, get) => ({
         }
     },
 
-    useDailyRecharge: () => {
+    setDailyMultiPlay: (dailyMultiPlayCount: number) => {
+        set(() => ({
+            dailyMultiPlay: { ...get().dailyMultiPlay, count: dailyMultiPlayCount }
+        }))
+    },
+
+    setDailyRecharge: (dailyRecharge:number) => {
+        set(() => ({
+            dailyRecharge: { ...get().dailyRecharge, count: dailyRecharge }
+        }))
+    },
+
+    useDailyRecharge: async () => {
         if (get().dailyRecharge.status === 'active') return;
+        if(get().dailyRecharge.count < 1) return;
 
         const lastTime = get().dailyRecharge.date;
         const timeDiff = (Date.now() - Number(lastTime)) / 1000 / 86400;
 
+        await UserService.setDaily({type: 'recharge'});
         
         if (timeDiff > 1) {
             set(() => ({
@@ -96,6 +118,17 @@ const useGameStore = create<GameStore>((set, get) => ({
             multiplyLevel: Math.max(1, state.multiplyLevel - 1),
             rechargeLevel: Math.max(1, state.rechargeLevel - 1),
         }));
+    },
+    buyLevelUp: (type:string) => {
+        switch(type) {
+            case 'multitap':
+                break;
+            case 'speed':
+                break;
+            case 'bot':
+                break;
+                
+        }
     }
 }));
 

@@ -9,6 +9,9 @@ interface BoostersMenuProps {
 const BoostersMenu = ({maxRecharge, maxMiltitap}:BoostersMenuProps) => {
 
     const state = useGameStore();
+
+    console.log(state.dailyRecharge)
+    
     return (
         <div className={cls.menu}>
             <span className={cls.title}>Your dailly boosters:</span>

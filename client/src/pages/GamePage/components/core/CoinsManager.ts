@@ -88,7 +88,7 @@ class CoinsManager {
 
         if(this.coins.length === 0) {
             setTimeout(() => {
-              this.spawnCoins(40);
+              this.spawnCoins(0);
             }, 50)
             this.isRespawn = true;
         }

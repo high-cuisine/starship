@@ -2,7 +2,8 @@ import mitt from "mitt";
 
 type Events = { 
     activeSound: 'coin' | 'shoot';
-    changeState: 'on' | 'off'
+    changeState: 'on' | 'off';
+    background: string;
 }
 
 const eventBus = mitt<Events>();

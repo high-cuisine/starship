@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "multitap" SET DEFAULT 0,
+ALTER COLUMN "fastSpeed" SET DEFAULT 0,
+ALTER COLUMN "galacticBot" SET DEFAULT false,
+ALTER COLUMN "scores" SET DEFAULT 0;

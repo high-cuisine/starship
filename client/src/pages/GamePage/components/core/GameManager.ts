@@ -19,12 +19,13 @@ class GameManager {
             enduraceRef:React.RefObject<RectTypeKonva>,
             coinsCounterRef: React.RefObject<KonvaTextType>,
             coinBalance:number,
-            bulletImage: string
+            bulletImage: string,
+            
         ) {
             userRef.current?.x(window.innerWidth / 2 + 75);
             userRef.current?.y(PLAYERY);
     
-            Player.init({userRef, canvasRef, enduraceRef, bulletsRef, bulletImage});
+            Player.init({userRef, canvasRef, enduraceRef, bulletsRef, bulletImage}, coinBalance, bulletsRef);
             Player.startListener();
             Player.animateBullets();
 

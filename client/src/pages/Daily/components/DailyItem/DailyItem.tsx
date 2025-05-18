@@ -2,6 +2,7 @@ import cls from './DailyItem.module.scss'
 import coin from '../../../../assets/icons/coin.png'
 import { formatedNumber } from '../../../../utils/formatedNumberShort'
 import { useUserStore } from '../../../../features/store/useUserStore'
+import { useNavigate } from 'react-router-dom';
 
 interface DailyItemProps {
     reward:number,
@@ -11,12 +12,14 @@ interface DailyItemProps {
 
 const DailyItem = ({reward, day, isActive}:DailyItemProps) => {
 
-    const updateCoins = useUserStore(state => state.updateCoins);
+    const setDailyBonus = useUserStore(state => state.useDailyBonus);
+    const navigate = useNavigate();
 
     const handleTakeDaily = () => {
         if(!isActive) return;
 
-        updateCoins(reward);
+        setDailyBonus(reward).then(() => navigate('/'));
+        
     }
 
     return (

@@ -7,7 +7,11 @@ import CoinsManager from "./CoinsManager";
 import { Rect as RectType } from "konva/lib/shapes/Rect";
 import { useGameStore } from "../../../../features/store/useGameStore";
 import eventBus from "./EventBus";
+import UserService from "../../../../features/api/Services/UserService";
+import { useUserStore } from "../../../../features/store/useUserStore";
+import { getLanguageInfo } from "../../../../utils/getLeguageInfo";
 //import { useUserStore } from "../../../../store/useUserStore";
+import Konva from 'konva';
 
 type IPlayer = {
   userRef: React.RefObject<Image>;
@@ -26,6 +30,8 @@ class Player {
   fireTimer: number = 0;
   playerX: number = 0;
   startX: number | null = window.innerWidth / 2 - PLAYERCENTER / 2;
+  raundFire: number = 0;
+  multiplecsor: number = 1;
 
   bullets: Image[] = [];
   bulletsRef: React.RefObject<Layer> | null = null;
@@ -34,10 +40,11 @@ class Player {
   enduraceRef: React.RefObject<RectType> | null = null;
   isReload: boolean = false;
   bulletImage: string = '';
+  bulletRef:React.RefObject<Layer> | undefined;
 
   MAX_COUNT = COIN_COUNT_IN_LINE * COIN_LINES_COUNT;
 
-  init({ userRef, canvasRef, enduraceRef, bulletsRef, bulletImage }: IPlayer) {
+  init({ userRef, canvasRef, enduraceRef, bulletsRef, bulletImage }: IPlayer, balance:number, bulletRef:React.RefObject<Layer>) {
     this.userRef = userRef;
     this.canvasRef = canvasRef;
     this.initialShipX = window.innerWidth / 2 - PLAYERCENTER / 2;
@@ -48,13 +55,9 @@ class Player {
     this.bulletsRef = bulletsRef;
     this.endurace = this.MAX_COUNT;
     this.bulletImage = bulletImage;
-  //  console.log("STARRRT")
-  //  setTimeout(() => {
-  //   if(!this.userRef) return;
-  //   this.userRef.current?.x(window.innerWidth / 2 - 75);
-  //   this.userRef.current?.y(PLAYERY);
-    
-  //  }, 40)
+    this.multiplecsor = getLanguageInfo(balance).multiplier;
+    this.bulletRef = bulletRef
+
   }
 
   startListener() {
@@ -78,13 +81,17 @@ class Player {
     clearInterval(this.fireTimer);
     this.fireTimer = window.setInterval(() => {
       this.createBullet(this.playerX + PLAYERCENTER / 2 - 10);
+      
     }, 300);
   };
 
-  stopSpawnBullets = () => {
+  stopSpawnBullets = async () => {
     if (this.fireTimer) {
       clearInterval(this.fireTimer);
       this.fireTimer = 0;
+      await UserService.savePoints(this.raundFire * this.multiplecsor);
+      useUserStore.getState().incrementCoin(this.raundFire * this.multiplecsor);
+      this.raundFire = 0;
     }
   };
 
@@ -128,11 +135,16 @@ class Player {
 
     rasleCoin(coin:Image, bullet:Rect) {
       CoinsManager.removeCoin(coin);
+      this.raundFire++;
       this.decrimentEndurace();
       const bulletIndex = this.bullets.findIndex(el => el === bullet);
       this.bullets.splice(bulletIndex, 1);
       bullet.destroy(); 
-      //useUserStore.getState().incrimentCoin();
+
+      console.log(coin.y(), coin.x())
+
+      this.spawnNumber(Number(coin.x()), Number(coin.y()))
+      
       return;  
     }
 
@@ -151,6 +163,7 @@ class Player {
                       bullet.y() + COIN_SIZE > coin.y()
                   ) {
                     this.rasleCoin(coin, bullet)
+                    
                   }
               }
                 
@@ -197,6 +210,83 @@ class Player {
         this.enduraceRef.current?.width(Number((window.innerWidth * 0.7 - 8) * (this.endurace / this.MAX_COUNT)))
       }
     }
+
+
+    spawnNumber(x:number, y:number) {
+    const text = new Konva.Text({
+        text: `+${this.multiplecsor}`,
+        fontSize: 24,
+        fill: 'white',
+        fontFamily: 'Inter',
+        x,
+        y,
+        opacity: 1,
+      });
+
+      if(this.bulletRef?.current)
+        this.bulletRef.current.add(text);
+
+      text.to({
+        opacity: 0,
+        duration: 1,
+        onFinish: () => {
+          text.destroy(); 
+        },
+      });
+    }
 }
 
 export default new Player();
+
+
+/**
+ * 
+ *  const handleJump = (e) => {
+    if (GameState.state !== 0 && tapsCount > 4) return;
+    if(!isControll || (!GameState.isResetGame && timeRef.current < 100)) return;
+    tapsCount++;
+    window?.Telegram?.WebApp?.HapticFeedback.impactOccurred('medium');
+
+    const currentTime = Date.now();
+    const timeSinceLastJump = currentTime - (window.lastJumpTime || 0);
+    const jumpStrength = timeSinceLastJump < tapBoostInterval
+      ? Math.max(maxJumpStrength, velocityRef.current + minJumpStrength)
+      : minJumpStrength;
+
+    velocityRef.current = jumpStrength;
+    window.lastJumpTime = currentTime;
+
+   
+    coinsRef.current = coinsRef.current + 1;
+    if(coinsVisualRef.current) {
+      coinsVisualRef.current.text(coinsRef.current);
+    }
+    renderCoins();
+
+    const pointerPosition = e.target.getStage().getPointerPosition();
+
+    const newIndicator = { x: pointerPosition.x, y: pointerPosition.y };
+    const text = new window.Konva.Text({
+      text: '+1',
+      fontSize: 24,
+      fill: 'white',
+      fontFamily: 'MonBold',
+      x: newIndicator.x,
+      y: newIndicator.y,
+      opacity: 1,
+    });
+
+    // Добавляем текст на слой
+    dinaminLayerRef.current.add(text);
+
+    // Анимация исчезновения
+    text.to({
+      opacity: 0,
+      duration: 1,
+      onFinish: () => {
+        text.destroy(); // Удаляем текст после исчезновения
+      },
+    });
+    //dinaminLayerRef
+  };
+ */

@@ -38,5 +38,12 @@
         background: none;
         border:none;
         outline: none;
+        height: 45px;
+    }
+
+    & .buttons {
+        display: flex;
+        flex-direction: column;
+        gap:5px;
     }
 }

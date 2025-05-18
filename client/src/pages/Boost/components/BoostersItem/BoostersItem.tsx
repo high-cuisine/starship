@@ -23,7 +23,10 @@ const BoostersItem = ({item}:BoostersItemProps) => {
             </div>
 
             <span className={cls.level}>
-                {item.level} level
+             {
+                !item.isBoolean &&
+                `${item.level} level`
+             }
             </span>
         </div>
     )

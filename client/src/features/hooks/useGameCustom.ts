@@ -7,18 +7,18 @@ import ship6 from '../../assets/images/ships/ship6.png';
 import ship7 from '../../assets/images/ships/ship7.png';
 import ship8 from '../../assets/images/ships/ship8.png';
 import ship9 from '../../assets/images/ships/ship9.png';
-import ship10 from '../../assets/images/ships/ship10.png';
+//import ship10 from '../../assets/images/ships/ship10.png';
 
-import background1 from '../../assets/backgrounds/background1.png';
-import background2 from '../../assets/backgrounds/background2.png';
-import background3 from '../../assets/backgrounds/background3.png';
-import background4 from '../../assets/backgrounds/background4.png';
-import background5 from '../../assets/backgrounds/background5.png';
-import background6 from '../../assets/backgrounds/background6.png';
-import background7 from '../../assets/backgrounds/background7.png';
-import background8 from '../../assets/backgrounds/background8.png';
-import background9 from '../../assets/backgrounds/background9.png';
-import background10 from '../../assets/backgrounds/background10.png';
+const background1 = './backgrounds/background1.png';
+const background2 = './backgrounds/background2.png';
+const background3 = '.backgrounds/background3.png';
+const background4 = './backgrounds/background4.png';
+const background5 = './backgrounds/background5.png';
+const background6 = './backgrounds/background6.png';
+const background7 = './backgrounds/background7.png';
+const background8 = './backgrounds/background8.png';
+const background9 = './backgrounds/background9.png';
+const background10 = './backgrounds/background10.png';
 
 
 import bulletElectro1 from '../../assets/images/bullets/electro-1.png';
@@ -60,10 +60,12 @@ const useGameCustom = ({ level }: UseGameCustomProps) => {
     7: { playerImage: ship7, backgroundImage: background7, bulletType: bulletLz2 },
     8: { playerImage: ship8, backgroundImage: background8, bulletType: bulletLz3 },
     9: { playerImage: ship9, backgroundImage: background9, bulletType: bulletPlz2 },
-    10: { playerImage: ship10, backgroundImage: background10, bulletType: bulletPlz1 },
+    10: { playerImage: ship4, backgroundImage: background10, bulletType: bulletPlz1 },
+    11: { playerImage: ship1, backgroundImage: background1, bulletType: bulletElectro1, },
   };
+  
 
-  if (level < 1 || level > 10) {
+  if (level < 1 || level > 11) {
     throw new Error(`Недопустимый уровень: ${level}. Уровень должен быть от 1 до 10.`);
   }
 

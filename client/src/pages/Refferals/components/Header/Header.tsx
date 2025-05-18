@@ -10,18 +10,37 @@ const Header = ({link}:HeaderProps) => {
 
     const [inputLink, setInputLink] = useState(link);
     const { setInviteLink } = useUserStore();
-
-    console.log(link);
     
     const changeInviteLink = (e:string) => {
 
+        return;
         setInviteLink(e);
         setInputLink(e);
     }
 
     useEffect(() => {
-        setInputLink(link);
+        setInputLink(`https://t.me/Worldcoin2025_bot?start=${link}`);
     }, [])
+
+    async function copyToClipboard(text:string) {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const tmp = document.createElement('textarea');
+          tmp.value = text;
+          tmp.style.position = 'fixed';
+          document.body.append(tmp);
+          tmp.select();
+          document.execCommand('copy');
+          tmp.remove();
+        }
+      }
+
+      function sendLink() {
+        const inviteLink = `https://t.me/Worldcoin2025_bot?start=${link}`
+        const url = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}`;
+        window.open(url, '_blank');
+      }
 
     return (
         <div>
@@ -32,7 +51,10 @@ const Header = ({link}:HeaderProps) => {
                     placeholder='My invite link: '
                     onChange={(e) => changeInviteLink(e.target.value)}    
                 ></input>
-                <button className={cls.button}>Сopy</button>
+                <div className={cls.buttons}>
+                    <button className={cls.button} onClick={() => copyToClipboard(inputLink)}>Сopy</button>
+                    <button className={cls.button} onClick={() => sendLink()}>Send</button>
+                </div>
             </div>
         </div>
     )

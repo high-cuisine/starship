@@ -3,10 +3,13 @@
     grid-template-columns: repeat(6, 1fr);
     gap: 8px;
     position: absolute;
+    padding: 0 8px;
     z-index: 1000;
     bottom:10px;
     left:50%;
     color:#fff;
+    background: #29475b80;
+    border-radius: 20px;
     transform: translate(-50%);
 
     & .item {
@@ -31,4 +34,18 @@
             width: clamp(1.375rem, -2.95rem + 20vw, 3rem);
         }
     }
+}
+
+.active, .disactive {
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.walletItem {
+    overflow: hidden;
+    position: relative;
 }

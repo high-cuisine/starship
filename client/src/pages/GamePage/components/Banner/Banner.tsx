@@ -9,7 +9,7 @@ const Banner = () => {
     return (
         <div className={cls.banner}>
             <img src={coin}></img>
-            <span>{user?.coins}</span>
+            <span>{user?.scores}</span>
         </div>
     )
 }

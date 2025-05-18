@@ -5,31 +5,16 @@ import cls from './Tasks.module.scss';
 import { NavBar } from './components/NavBar/NavBar';
 import { ITask } from '../../entities/ITask/ITask';
 import { LegusList } from './components/Leagus/LegusList';
-import helmet from '../../assets/icons/helmet.png'
+
+import { useUserStore } from '../../features/store/useUserStore';
 
 const Tasks = () => {
 
     const [currentTask, setCurrentTask] = useState<'Ref' | 'Spesial' | 'Leagus'>('Ref');
+    const {user} = useUserStore();
 
     const tasks: ITask[] = [
-        {
-            image: helmet,
-            header: "Задача 1",
-            count: 10,
-            link: "https://example.com/tasks/1"
-        },
-        {
-            image: helmet,
-            header: "Задача 2",
-            count: 5,
-            link: "https://example.com/tasks/2"
-        },
-        {
-            image: helmet,
-            header: "Задача 3",
-            count: 8,
-            link: "https://example.com/tasks/3"
-        }
+
     ];
 
     function getTasks() {
@@ -45,7 +30,7 @@ const Tasks = () => {
 
     return (
         <div className={cls.main}>
-            <Balance isSubTitle={false} balance={10000} isLeaguageShow={true}></Balance>
+            <Balance isSubTitle={false} balance={Number(user?.scores)} isLeaguageShow={true}></Balance>
             <NavBar state={currentTask} setState={setCurrentTask}></NavBar>
             <LegusList list={getTasks()}></LegusList>
         </div>

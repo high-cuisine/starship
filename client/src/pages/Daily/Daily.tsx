@@ -1,15 +1,17 @@
+import { useEffect, useState } from 'react';
 import { DailyList } from './components/DailyList/DailyList';
 import { Header } from './components/Header/Header';
 import cls from './Daily.module.scss';
 import { IDaily } from './model/IDaily';
+import { useUserStore } from '../../features/store/useUserStore';
 
 const Daily = () => {
 
-    const list:IDaily[] = [
+    const [list, setList] = useState<IDaily[]>([
         {
             day:1,
             reward:500,
-            isActive:true,
+            isActive:false,
         },
         {
             day:2,
@@ -57,7 +59,22 @@ const Daily = () => {
             isActive:false,
         },
         
-    ]
+    ]);
+
+    const user = useUserStore(state => state.user)
+
+    useEffect(() => {
+        const day:number = Math.min(10, Number(user?.daysActive) - 1);
+        const listNew = list
+        if(day < 0) return;
+        listNew[day] = {
+            ...list[day],
+            isActive:true
+        }
+
+        setList(listNew);
+    }, [user])
+
     return (
         <div className={cls.main}>
             <Header></Header>

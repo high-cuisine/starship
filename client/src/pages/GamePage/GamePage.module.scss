@@ -35,33 +35,7 @@
     justify-content: center;
 }
 
-.SoundController {
-    position: absolute;
-    top:20px;
-    right:20px;
-    z-index: 20;
-    background: none;
-    border: none;
-    outline: none;
-    
-    & img {
-        width: 40px;
-    }
-}
 
-.BackController {
-    position: absolute;
-    top:20px;
-    left:20px;
-    z-index: 20;
-    background: none;
-    border: none;
-    outline: none;
-    
-    & img {
-        width: 40px;
-    }
-}
 
 @keyframes paracs {
     0% {

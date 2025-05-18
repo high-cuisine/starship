@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "users" ADD COLUMN     "daysActiveBatch" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "daysActiveStart" TIMESTAMP(3) NOT NULL DEFAULT '2024-09-27 08:55:13.372 +00:00';
