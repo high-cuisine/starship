@@ -55,6 +55,14 @@ let RefferalsService = class RefferalsService {
         });
         return count;
     }
+    async getRefferalsUsersCount(userId) {
+        const count = await this.prisma.referral.count({
+            where: {
+                referrerId: userId
+            }
+        });
+        return count;
+    }
 };
 exports.RefferalsService = RefferalsService;
 exports.RefferalsService = RefferalsService = __decorate([

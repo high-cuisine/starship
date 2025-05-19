@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { RefferalsService } from '../refferals/refferals.service';
 import { UsersService } from '../users/users.service';
+import { TelegramBotService } from '../telegram-bot/telegram-bot.service';
 
 @Injectable()
 export class TasksService {
@@ -9,21 +10,11 @@ export class TasksService {
     constructor(
         private readonly prisma: PrismaClient,
         private readonly refService: RefferalsService,
-        private readonly userService: UsersService
+        private readonly userService: UsersService,
+        private readonly telegramBotService: TelegramBotService
     ) {}
 
-    async createTask(type: 'Ref', reward:number, title:string, target:number) {
-        const task = await this.prisma.task.create({
-            data: {
-                type,
-                reward,
-                title,
-                target
-            }
-        });
-
-        return task;
-    }
+   
 
     async getTasks(userId:number) {
         const tasks =  await this.prisma.userTasks.findMany({
@@ -33,7 +24,7 @@ export class TasksService {
         return tasks;
     }
 
-    async claimTask(userId:number, taskId:number) {
+    async claimTask(userId:number, taskId:number, telegramId:number) {
         const userTask = await this.prisma.userTasks.findFirst({
             where: {userId, taskId}
         });
@@ -47,11 +38,15 @@ export class TasksService {
                 const count = await this.refService.getRefferalsCount(userId);
                 return count >= task.reward
             case 'Leagues':
-                const scores = await this.userService.getUserScores(userId);
-                return scores >= task.reward
+                const countRef = await this.refService.getRefferalsUsersCount(userId);
+                return countRef >= task.reward
             case 'Special':
-                break;
+                return (await this.telegramBotService.checkSubscription(telegramId))
+            default:
+                return false;
         }
     }
 
+
 }
+

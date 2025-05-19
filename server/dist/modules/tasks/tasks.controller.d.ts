@@ -1,6 +1,18 @@
 import { AuthService } from '../auth/auth.service';
+import { TasksService } from './tasks.service';
 export declare class TasksController {
     private readonly authService;
-    constructor(authService: AuthService);
-    getTasks(auth: string, req: Request, res: Response): Promise<void>;
+    private readonly tasksService;
+    constructor(authService: AuthService, tasksService: TasksService);
+    getTasks(auth: string): Promise<{
+        tasks: {
+            userId: number;
+            taskId: number;
+        }[];
+    }>;
+    completeTask(auth: string, body: {
+        taskId: number;
+    }): Promise<{
+        message: string;
+    }>;
 }

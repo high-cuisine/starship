@@ -14,22 +14,13 @@ const common_1 = require("@nestjs/common");
 const client_1 = require("@prisma/client");
 const refferals_service_1 = require("../refferals/refferals.service");
 const users_service_1 = require("../users/users.service");
+const telegram_bot_service_1 = require("../telegram-bot/telegram-bot.service");
 let TasksService = class TasksService {
-    constructor(prisma, refService, userService) {
+    constructor(prisma, refService, userService, telegramBotService) {
         this.prisma = prisma;
         this.refService = refService;
         this.userService = userService;
-    }
-    async createTask(type, reward, title, target) {
-        const task = await this.prisma.task.create({
-            data: {
-                type,
-                reward,
-                title,
-                target
-            }
-        });
-        return task;
+        this.telegramBotService = telegramBotService;
     }
     async getTasks(userId) {
         const tasks = await this.prisma.userTasks.findMany({
@@ -37,7 +28,7 @@ let TasksService = class TasksService {
         });
         return tasks;
     }
-    async claimTask(userId, taskId) {
+    async claimTask(userId, taskId, telegramId) {
         const userTask = await this.prisma.userTasks.findFirst({
             where: { userId, taskId }
         });
@@ -49,10 +40,12 @@ let TasksService = class TasksService {
                 const count = await this.refService.getRefferalsCount(userId);
                 return count >= task.reward;
             case 'Leagues':
-                const scores = await this.userService.getUserScores(userId);
-                return scores >= task.reward;
+                const countRef = await this.refService.getRefferalsUsersCount(userId);
+                return countRef >= task.reward;
             case 'Special':
-                break;
+                return (await this.telegramBotService.checkSubscription(telegramId));
+            default:
+                return false;
         }
     }
 };
@@ -61,6 +54,7 @@ exports.TasksService = TasksService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [client_1.PrismaClient,
         refferals_service_1.RefferalsService,
-        users_service_1.UsersService])
+        users_service_1.UsersService,
+        telegram_bot_service_1.TelegramBotService])
 ], TasksService);
 //# sourceMappingURL=tasks.service.js.map

@@ -21,6 +21,7 @@ export declare class UsersService {
         scores: number;
         daysActiveStart: Date;
         daysActiveLast: Date;
+        isTakingDailyReward: boolean;
         dailyRecharge: number;
         dailyMultiply: number;
     }>;
@@ -36,6 +37,7 @@ export declare class UsersService {
         scores: number;
         daysActiveStart: Date;
         daysActiveLast: Date;
+        isTakingDailyReward: boolean;
         dailyRecharge: number;
         dailyMultiply: number;
     }>;
@@ -55,6 +57,7 @@ export declare class UsersService {
         scores: number;
         daysActiveStart: Date;
         daysActiveLast: Date;
+        isTakingDailyReward: boolean;
         dailyRecharge: number;
         dailyMultiply: number;
     }>;

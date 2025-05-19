@@ -24,4 +24,5 @@ export declare class RefferalsService {
         referredId: number;
     }>;
     getRefferalsCount(userId: number): Promise<number>;
+    getRefferalsUsersCount(userId: number): Promise<number>;
 }

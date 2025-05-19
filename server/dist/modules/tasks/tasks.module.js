@@ -13,12 +13,13 @@ const tasks_controller_1 = require("./tasks.controller");
 const auth_module_1 = require("../auth/auth.module");
 const refferals_module_1 = require("../refferals/refferals.module");
 const users_module_1 = require("../users/users.module");
+const telegram_bot_module_1 = require("../telegram-bot/telegram-bot.module");
 let TasksModule = class TasksModule {
 };
 exports.TasksModule = TasksModule;
 exports.TasksModule = TasksModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, refferals_module_1.RefferalsModule, users_module_1.UsersModule],
+        imports: [auth_module_1.AuthModule, refferals_module_1.RefferalsModule, users_module_1.UsersModule, telegram_bot_module_1.TelegramBotModule],
         providers: [tasks_service_1.TasksService],
         controllers: [tasks_controller_1.TasksController]
     })

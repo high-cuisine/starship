@@ -38,7 +38,7 @@ model Task {
   type      TaskType
   reward    Int
   title     String
-  target    Int
+  target    String
   UserTasks UserTasks[]
 
   @@map("tasks")
